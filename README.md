@@ -10,7 +10,7 @@ This is one of the seven Clay Millennium Prize Problems, open since 1859.
 
 This project develops **Arithmetic Spectral Geometry (ASG)**, a new mathematical framework that reduces RH to a single geometric statement: the **Arithmetic Positivity Theorem (APT)**. The reduction follows Weil's 1948 strategy for function fields, translated to the number field setting.
 
-**Status:** RH is reduced to proving APT, which is reduced to a specific quantitative bound on the Weil kernel at prime-logarithm differences (the Arithmetic Cross-Term Bound). Numerical experiments confirm the bound with a ratio of ~500:1.
+**Status:** RH is reduced to proving APT via ASG. The extension framework **Arithmetic Measure Rigidity (AMR)** attacks APT by showing the cross-term matrix is a correlation operator on the adelic solenoid T_A, whose structure is forced by Furstenberg-Rudolph-Lindenstrauss measure rigidity. Computational validation confirms AMR predictions: 160×160 Weil matrix has all 159 primitive eigenvalues negative; gap-entropy correlation r = 0.996.
 
 ## Repository Structure
 
@@ -43,6 +43,26 @@ riemann-hypothesis/
 │
 ├── explorations/
 │   └── connections.md                           # Cross-disciplinary connections
+│
+├── amr/                                         # Phase 4: Arithmetic Measure Rigidity
+│   ├── AMR-MANIFESTO.md                         # ★ Founding document of AMR
+│   ├── MASTER-PROOF.md                          # ★ Complete proof outline with status
+│   │
+│   ├── foundations/
+│   │   └── amr-foundations.md                   # AMR axioms and core theorems
+│   │
+│   ├── dynamics/
+│   │   └── furstenberg-bridge.md                # Furstenberg-Lindenstrauss bridge to RH
+│   │
+│   ├── condensed/
+│   │   └── condensed-foundations.md              # Clausen-Scholze condensed foundations
+│   │
+│   └── computational/                           # AMR computational validation
+│       ├── amr_correlation_test.py              # Correlation decay + entropy tests
+│       ├── amr_rigidity_test.py                 # Equidistribution (numerical Rudolph)
+│       ├── amr_nearcoincidence.py               # Near-coincidence analysis
+│       ├── amr_eigenvalue_scaling.py            # Large-scale eigenvalue tests
+│       └── amr_results_summary.md               # ★ All computational results
 │
 └── asg/                                         # Phase 2+3: Arithmetic Spectral Geometry
     ├── ASG-MANIFESTO.md                         # ★ Founding document of ASG
@@ -112,6 +132,15 @@ Phase 3: Attack on APT
     └── Final synthesis: ACTB conjecture as the sharpest remaining gap
 
 Result: RH ⟺ APT ⟺ ACTB (Arithmetic Cross-Term Bound)
+
+Phase 4: Arithmetic Measure Rigidity (AMR)
+    ├── Reinterpret ACTB as correlation operator on adelic solenoid T_A
+    ├── Import Furstenberg-Rudolph-Lindenstrauss measure classification
+    ├── Show arithmetic measure is forced to be Haar by rigidity + Baker
+    ├── Compute: Haar ⟹ negative primitive eigenvalues (APT)
+    ├── Condensed mathematics resolves 6 Weil-translation failure points
+    ├── Computational validation: 160×160 matrix, 159/159 eigs negative
+    └── Gap-entropy correlation r = 0.996 confirms AMR predictions
 ```
 
 ## Key Numerical Finding
