@@ -104,10 +104,11 @@ def build_zeros_only_matrix(primes, m_max, zeros_float):
     return M, labels
 
 
-def primitive_eigenvalues(M):
+def primitive_eigenvalues(M, labels):
     """Compute eigenvalues on primitive subspace."""
     N = M.shape[0]
-    v = np.ones(N) / np.sqrt(N)
+    v = np.array([np.sqrt(np.log(p)) / p**(a / 2.0) for p, a in labels])
+    v = v / np.linalg.norm(v)
     P = np.eye(N) - np.outer(v, v)
     Mp = P @ M @ P
     Mp = (Mp + Mp.T) / 2
@@ -170,15 +171,15 @@ def main():
 
         # Build bg-only matrix
         M_bg, labels = build_bg_matrix(primes, m_max)
-        eigs_bg = primitive_eigenvalues(M_bg)
+        eigs_bg = primitive_eigenvalues(M_bg, labels)
 
         # Build full matrix
         M_full, _ = build_full_matrix(primes, m_max, zeros_float)
-        eigs_full = primitive_eigenvalues(M_full)
+        eigs_full = primitive_eigenvalues(M_full, labels)
 
         # Build zeros-only matrix
         M_zeros, _ = build_zeros_only_matrix(primes, m_max, zeros_float)
-        eigs_zeros = primitive_eigenvalues(M_zeros)
+        eigs_zeros = primitive_eigenvalues(M_zeros, labels)
 
         bg_max = eigs_bg[-1]
         bg_min = eigs_bg[0]

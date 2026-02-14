@@ -189,7 +189,7 @@ def build_matrix(primes, m_max, zeros_mp):
 # Eigenvalue certification
 # ===========================================================================
 
-def certify(midpoints, radii, tag=""):
+def certify(midpoints, radii, labels, tag=""):
     """Certify all primitive eigenvalues <= 0 via Weyl's perturbation theorem."""
     N = midpoints.shape[0]
     pfx = f"[p<={tag}] " if tag else ""
@@ -214,8 +214,9 @@ def certify(midpoints, radii, tag=""):
     # --- Full eigenvalues ---
     eigs = np.sort(np.linalg.eigvalsh(midpoints))
 
-    # --- Primitive projection: P = I - ee^T/N ---
-    v = np.ones(N) / np.sqrt(N)
+    # --- Primitive projection: v_{p,m} = sqrt(log p) / p^{m/2} ---
+    v = np.array([np.sqrt(np.log(p)) / p**(a / 2.0) for p, a in labels])
+    v = v / np.linalg.norm(v)
     P = np.eye(N) - np.outer(v, v)
     Mp = P @ midpoints @ P
     Mp = (Mp + Mp.T) / 2  # enforce symmetry
@@ -278,7 +279,7 @@ def main():
         print(f"{'='*70}")
 
         labels, mid, rad = build_matrix(primes, M_MAX, zeros_mp)
-        cert = certify(mid, rad, tag=str(pb))
+        cert = certify(mid, rad, labels, tag=str(pb))
         results[pb] = cert
 
         print(f"\n  Bottom 5 primitive eigenvalues:")
